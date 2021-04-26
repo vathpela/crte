@@ -1,0 +1,79 @@
+#!/bin/bash
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+# This updates our edk2-based include files in include/efi/
+set -eu
+
+declare -a CPUS
+CPUS=(AARCH64 ARM EBC IA32 RISCV64 X64)
+
+run_gcc() {
+	gcc -I submodules/edk2/MdePkg/Include/ "${@}" -MM -x c - <<EOF
+#if defined(MDE_CPU_AARCH64)
+#include <AArch64/ProcessorBind.h>
+#elif defined(MDE_CPU_ARM)
+#include <Arm/ProcessorBind.h>
+#elif defined(MDE_CPU_EBC)
+#include <Ebc/ProcesorBind.h>
+#elif defined(MDE_CPU_IA32)
+#include <Ia32/ProcessorBind.h>
+#elif defined(MDE_CPU_X64)
+#include <X64/ProcessorBind.h>
+#endif
+#include <Uefi/UefiBaseType.h>
+#include <Uefi/UefiSpec.h>
+EOF
+}
+
+get_files() {
+	local cpu x
+	local -A files
+	for cpu in "${CPUS[@]}" ; do
+		for x in $(run_gcc "-DMDE_CPU_${cpu}")
+		do
+			if [[ "${x}" =~ ^submodules/edk2/ ]] ; then
+				files["${x}"]=1
+			fi
+		done
+	done
+	for x in ${!files[*]} ; do
+		echo "${x}"
+	done
+}
+
+get_commit_id() {
+	cd "${1}"
+	git log --pretty='tformat:%h' -1
+}
+
+main() {
+	find include/efi/ -type f -exec git rm {} \;
+
+	# some git versions will have removed all the directories, but I don't
+	# know if all of them will, and I'm too lazy to check.  Just mkdir it
+	# before trying to remove the excess directories.
+	mkdir -p include/efi/
+	find include/efi/ -type d \
+		-wholename include/efi/ -prune\
+		-o -exec rmdir {} \;
+
+	local -a oldfiles
+	mapfile -t oldfiles < <(get_files)
+
+	local oldfile newfile newdir
+	set -x
+	for oldfile in "${oldfiles[@]}" ; do
+		newfile="${oldfile/submodules\/edk2\/MdePkg\/Include\//include\/efi\/}"
+		newdir="${newfile%/*}"
+		mkdir -vp "${newdir}"
+		ln -v "${oldfile}" "${newfile}"
+	done
+	find include/efi/ -type f -exec git add {} \;
+
+	local commitid
+	commitid=$(get_commit_id submodules/edk2)
+
+	git commit -m "Update UEFI includes" -m "These are from edk2 commit ${commitid}" --no-edit -s
+}
+
+main "${@}"

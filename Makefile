@@ -4,9 +4,9 @@
 # Copyright Peter Jones <pjones@redhat.com>
 #
 
-TOPDIR = .
+TOPDIR ?= .
 
-all:
+default : all
 
 include include/setup.mk
 
