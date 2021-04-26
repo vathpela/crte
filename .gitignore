@@ -1,0 +1,12 @@
+*.a
+*.efi
+*.efi.a
+*.efi.o
+*.efi.so
+*.o
+*.so
+*.sw?
+*.syntastic*
+*~
+.gdb_history
+/build*/
