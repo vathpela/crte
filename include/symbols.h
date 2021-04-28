@@ -7,5 +7,10 @@
 #ifndef _CRTE_SYMBOLS_H
 #define _CRTE_SYMBOLS_H
 
+extern uintptr_t _text;
+extern uintptr_t _etext;
+
+extern uintptr_t _DYNAMIC;
+
 #endif /* !_CRTE_SYMBOLS_H */
 // vim:fenc=utf-8:tw=75:noet

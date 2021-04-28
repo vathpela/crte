@@ -47,6 +47,30 @@ get_commit_id() {
 	git log --pretty='tformat:%h' -1
 }
 
+make_edk2guids() {
+	cat > crte/efiguids.c <<EOF
+// SPDX-License-Identifier: BSD-2-Clause-Patent
+/*
+ * efiguids.c - initializers for the guids edk2 declares
+ */
+#include <internals.h>
+
+$(find submodules/edk2/ -name '*.dec' -print0 \
+	| xargs -r -0 grep -h 'Guid\s*=\s*{' -- \
+	| sed \
+		-e 's,^\s*,EFI_GUID ,' \
+		-e 's,\s\+, ,g' \
+		-e 's,\s*=\s*\(.*\), = \L\1,' \
+		-e 's,\s*{\s*, { ,g' \
+		-e 's,\s*}\s*, },g' \
+		-e 's/\s*,\s*/, /g' \
+		-e 's,} }\s*;*\s*#.*$,} };,' \
+		-e 's, } }$,&;,' \
+	| sort -u)
+EOF
+	git add crte/efiguids.c
+}
+
 main() {
 	find include/efi/ -type f -exec git rm {} \;
 
@@ -70,6 +94,8 @@ main() {
 		ln -v "${oldfile}" "${newfile}"
 	done
 	find include/efi/ -type f -exec git add {} \;
+
+	make_edk2guids
 
 	local commitid
 	commitid=$(get_commit_id submodules/edk2)
