@@ -10,6 +10,7 @@
 #include <ProcessorBind.h>
 #include <Uefi/UefiBaseType.h>
 #include <Uefi/UefiSpec.h>
+#include <Protocol/LoadedImage.h>
 
 #endif /* !_CRTE_EFI_H */
 // vim:fenc=utf-8:tw=75:noet

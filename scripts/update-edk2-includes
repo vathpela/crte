@@ -22,6 +22,7 @@ run_gcc() {
 #endif
 #include <Uefi/UefiBaseType.h>
 #include <Uefi/UefiSpec.h>
+#include <Protocol/LoadedImage.h>
 EOF
 }
 
