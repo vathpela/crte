@@ -35,4 +35,6 @@ include $(TOPDIR)/include/archive.efi.mk
 
 ABSTOPDIR=$(abspath $(TOPDIR))
 
+include $(TOPDIR)/crte/Makefile
+
 # vim:ft=make

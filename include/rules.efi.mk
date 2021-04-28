@@ -46,7 +46,7 @@ all :
 
 clean : clean-builddir
 
-clean-builddir :
+clean-builddir : | $(foreach x,crte,clean$(call dir-to-target,$(BUILDDIR)$(x)/))
 	@if [ -d "$(BUILDDIR)" ]; then rmdir -v "$(BUILDDIR)" ; fi
 
 # vim:ft=make

@@ -109,5 +109,10 @@ struct elf64_rela {
 #define ELF64_R_TYPE(val)	((val) & 0xffffffff)
 #define ELF64_R_INFO(sym, type)	((((elf64_xword) (sym)) << 32) + (type))
 
+/*
+ * relocate.c
+ */
+EFI_STATUS EFIAPI _relocate_elf(uintptr_t ldbase, elf_dynamic *dyn);
+
 #endif /* !_CRTE_ELF_H */
 // vim:fenc=utf-8:tw=75:noet
