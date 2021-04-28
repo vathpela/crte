@@ -9,5 +9,9 @@
 
 #include "edk2-includes.h"
 
+extern EFI_SYSTEM_TABLE *_ST;
+extern EFI_BOOT_SERVICES *_BS;
+extern EFI_RUNTIME_SERVICES *_RT;
+
 #endif /* !_CRTE_EFI_H */
 // vim:fenc=utf-8:tw=75:noet

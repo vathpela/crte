@@ -10,6 +10,11 @@
 #include <efi.h>
 
 /*
+ * start.c
+ */
+EFI_STATUS EFIAPI _start(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab);
+
+/*
  * external
  */
 EFI_STATUS EFIAPI efi_main(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab);

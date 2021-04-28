@@ -108,6 +108,7 @@ override LDFLAGS = $(USER_CFLAGS) \
 		   $(USER_LDFLAGS) \
 		   $(ARCH_LDFLAGS) \
 		   -nostartfiles \
+		   -T crte/efi.lds \
 		   $(FEATURE_FLAGS) \
 		   $(OPT_FLAGS) \
 		   $(LANG_FLAGS) \
