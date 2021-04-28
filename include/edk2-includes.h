@@ -11,6 +11,7 @@
 #include <Uefi/UefiBaseType.h>
 #include <Uefi/UefiSpec.h>
 #include <Protocol/LoadedImage.h>
+#include <Protocol/Rng.h>
 
 #endif /* !_CRTE_EDK2_INCLUDES_H */
 // vim:fenc=utf-8:tw=75:noet
