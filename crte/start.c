@@ -36,9 +36,17 @@ _start(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *systab)
 	_BS = systab->BootServices;
 	_RT = systab->RuntimeServices;
 
+	status = _ctors(ldbase);
+	if (EFI_ERROR(status))
+		return status;
+
 	ret = efi_main(image_handle, systab);
 	if (EFI_ERROR(ret))
 		return ret;
+
+	status = _dtors(ldbase);
+	if (EFI_ERROR(status))
+		return status;
 
 	return ret;
 }

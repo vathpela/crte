@@ -114,5 +114,11 @@ struct elf64_rela {
  */
 EFI_STATUS EFIAPI _relocate_elf(uintptr_t ldbase, elf_dynamic *dyn);
 
+/*
+ * structors.c
+ */
+EFI_STATUS EFIAPI _ctors(uintptr_t ldbase);
+EFI_STATUS EFIAPI _dtors(uintptr_t ldbase);
+
 #endif /* !_CRTE_ELF_H */
 // vim:fenc=utf-8:tw=75:noet
