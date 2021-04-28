@@ -13,6 +13,7 @@
 #include <crte.h>
 #include <crte/attributes.h>
 
+#include "earlyprint.h"
 #include "elf.h"
 #include "stack-protector.h"
 #include "symbols.h"
