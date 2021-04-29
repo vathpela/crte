@@ -8,21 +8,12 @@ declare -a CPUS
 CPUS=(AARCH64 ARM EBC IA32 RISCV64 X64)
 
 run_gcc() {
-	gcc -I submodules/edk2/MdePkg/Include/ "${@}" -MM -x c - <<EOF
-#if defined(MDE_CPU_AARCH64)
-#include <AArch64/ProcessorBind.h>
-#elif defined(MDE_CPU_ARM)
-#include <Arm/ProcessorBind.h>
-#elif defined(MDE_CPU_EBC)
-#include <Ebc/ProcesorBind.h>
-#elif defined(MDE_CPU_IA32)
-#include <Ia32/ProcessorBind.h>
-#elif defined(MDE_CPU_X64)
-#include <X64/ProcessorBind.h>
-#endif
-#include <Uefi/UefiBaseType.h>
-#include <Uefi/UefiSpec.h>
-#include <Protocol/LoadedImage.h>
+	gcc "${@}" -MM -x c -\
+		-Iinclude/efi/ \
+		-Iinclude/efi-mix-ins/ \
+		-I submodules/edk2/MdePkg/Include/ \
+		<<EOF
+#include "include/edk2-includes.h"
 EOF
 }
 

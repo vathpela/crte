@@ -7,10 +7,7 @@
 #ifndef _CRTE_EFI_H
 #define _CRTE_EFI_H
 
-#include <ProcessorBind.h>
-#include <Uefi/UefiBaseType.h>
-#include <Uefi/UefiSpec.h>
-#include <Protocol/LoadedImage.h>
+#include "edk2-includes.h"
 
 #endif /* !_CRTE_EFI_H */
 // vim:fenc=utf-8:tw=75:noet
