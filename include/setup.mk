@@ -32,10 +32,13 @@ include $(TOPDIR)/include/defaults.mk
 include $(TOPDIR)/include/rules.efi.mk
 include $(TOPDIR)/include/object.efi.mk
 include $(TOPDIR)/include/archive.efi.mk
+include $(TOPDIR)/include/app.efi.mk
 
 ABSTOPDIR=$(abspath $(TOPDIR))
 
 include $(TOPDIR)/crte/Makefile
 include $(TOPDIR)/libc/Makefile
+include $(TOPDIR)/scripts/Makefile
+include $(TOPDIR)/apps/Makefile
 
 # vim:ft=make
