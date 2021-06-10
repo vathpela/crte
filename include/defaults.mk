@@ -60,7 +60,6 @@ PREFIX		?= /usr
 FEATURE_FLAGS	?= \
 		   -ffreestanding \
 		   -fno-builtin \
-		   -fno-stack-protector \
 		   -fno-strict-aliasing \
 		   -fPIC \
 		   -fshort-wchar
@@ -94,13 +93,28 @@ WARN_FLAGS	?= \
 
 CFLAGS		?=
 override USER_CFLAGS := $(CFLAGS)
-override CFLAGS = $(USER_CFLAGS) \
-		  $(FEATURE_FLAGS) \
-		  $(OPT_FLAGS) \
-		  $(LANG_FLAGS) \
-		  $(ARCH_CC_FLAGS) \
-		  $(INCLUDE_FLAGS) \
-		  $(WARN_FLAGS)
+BASE_CFLAGS = $(USER_CFLAGS) \
+	      $(FEATURE_FLAGS) \
+	      $(OPT_FLAGS) \
+	      $(LANG_FLAGS) \
+	      $(ARCH_CC_FLAGS) \
+	      $(INCLUDE_FLAGS) \
+	      $(WARN_FLAGS)
+
+override CFLAGS = $(BASE_CFLAGS) $(EXTRA_FEATURE_FLAGS)
+
+ifeq ($(call check-compiler-support,-fstack-protector -mstack-protector-guard=global),1)
+	EXTRA_FEATURE_FLAGS += -mstack-protector-guard=global
+ifeq ($(call check-compiler-support,-fstack-protector-strong),1)
+	EXTRA_FEATURE_FLAGS += -fstack-protector-strong
+else
+	EXTRA_FEATURE_FLAGS += -fstack-protector
+endif
+else
+ifeq ($(call check-compiler-support,-fno-stack-protector),1)
+	EXTRA_FEATURE_FLAGS += -fno-stack-protector
+endif
+endif
 
 LDFLAGS		?=
 override USER_LDFLAGS := $(LDFLAGS)

@@ -11,7 +11,10 @@
 #include <stdint.h>
 
 #include <crte.h>
+#include <crte/attributes.h>
+
 #include "elf.h"
+#include "stack-protector.h"
 #include "symbols.h"
 
 #endif /* !_CRTE_INTERNALS_H */

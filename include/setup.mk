@@ -27,8 +27,8 @@ override HOST_ARCH := $(shell uname -m | sed \
 			)
 
 include $(TOPDIR)/include/arch-$(EFI_ARCH).mk
-include $(TOPDIR)/include/defaults.mk
 include $(TOPDIR)/include/helpers.mk
+include $(TOPDIR)/include/defaults.mk
 include $(TOPDIR)/include/rules.efi.mk
 include $(TOPDIR)/include/object.efi.mk
 include $(TOPDIR)/include/archive.efi.mk

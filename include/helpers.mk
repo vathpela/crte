@@ -32,4 +32,6 @@ define make-builddir-targets
 $(foreach x,$(1),$(call make-builddir-target-,$(x)))
 endef
 
+check-compiler-support := $(shell if $(CC) $(CFLAGS) -xc -S $(foreach x,$(1),$(x)) -o /dev/null /dev/null >&/dev/null ; then echo 1 ; fi)
+
 # vim:ft=make
